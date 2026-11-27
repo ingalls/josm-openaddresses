@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Plugin-Class: org.openstreetmap.josm.plugins.openaddresses.OpenAddresses
+ Plugin
+Plugin-Description: Download OpenAddresses addresses, parcels, roads and
+  buildings as reference layers
+Plugin-Version: 0.1.0
+Plugin-Mainversion: 19000
+Plugin-Minimum-Java-Version: 17
+Plugin-Canloadatruntime: true
+Plugin-Link: https://batch.openaddresses.io
+Author: ingalls
+

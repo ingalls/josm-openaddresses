@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.openstreetmap.josm.plugins.openaddresses.conflate.RoadMatcherTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-11-27T18:37:58.162Z" hostname="state" time="0.021">
+  <properties/>
+  <testcase name="flagsMissingPartialNamesAndGeometry()" classname="org.openstreetmap.josm.plugins.openaddresses.conflate.RoadMatcherTest" time="0.02"/>
+  <testcase name="ignoresRoadsOutsideTheDownloadedArea()" classname="org.openstreetmap.josm.plugins.openaddresses.conflate.RoadMatcherTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

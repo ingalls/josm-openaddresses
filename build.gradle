@@ -1,0 +1,69 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.openstreetmap.josm.plugins'
+version = '0.1.0'
+
+def josmJar = providers.gradleProperty('josmJar')
+    .map { file(it) }
+    .getOrElse(file("$rootDir/.gradle/josm/josm-tested.jar"))
+
+if (!josmJar.exists()) {
+    josmJar.parentFile.mkdirs()
+    ant.get(src: 'https://josm.openstreetmap.de/josm-tested.jar', dest: josmJar)
+}
+
+def josmPluginDir = providers.gradleProperty('josmPluginDir')
+    .getOrElse("${System.getProperty('user.home')}/.local/share/JOSM/plugins")
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly files(josmJar)
+
+    testImplementation files(josmJar)
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(providers.gradleProperty('javaToolchain').getOrElse('25') as int)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    archiveFileName = 'openaddresses.jar'
+    manifest {
+        attributes(
+            'Plugin-Class': 'org.openstreetmap.josm.plugins.openaddresses.OpenAddressesPlugin',
+            'Plugin-Description': 'Download OpenAddresses addresses, parcels, roads and buildings as reference layers',
+            'Plugin-Version': project.version,
+            'Plugin-Mainversion': project.property('josmMinVersion'),
+            'Plugin-Minimum-Java-Version': '17',
+            'Plugin-Canloadatruntime': 'true',
+            'Plugin-Link': 'https://batch.openaddresses.io',
+            'Author': 'ingalls'
+        )
+    }
+}
+
+tasks.register('installPlugin', Copy) {
+    description = 'Copy the plugin jar into the local JOSM plugins directory'
+    group = 'josm'
+    from jar
+    into josmPluginDir
+}
